@@ -21,8 +21,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "Iosevka SS04" :size 24 :weight 'light)
-     doom-variable-pitch-font (font-spec :family "SF Pro Text" :size 20))
+(setq doom-font (font-spec :family "Iosevka SS04" :size 16 :weight 'light)
+     doom-variable-pitch-font (font-spec :family "SF Pro Text" :size 14))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -32,7 +32,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-dark+)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -44,12 +44,6 @@
 
 
 (setq lexical-binding t)
-
-(when (display-graphic-p)
-  (require 'all-the-icons))
-;; or
-(use-package all-the-icons
-  :if (display-graphic-p))
 
 (after! projectile
   (setq projectile-project-search-path `("/Users/will/Documents/work*" "~/Documents/projects*" "~/Documents/work*" "~/Code/suture/SutureHealth.BrowserExtension" "~/Code" "/Users/will/Code/suture")))
@@ -73,6 +67,21 @@
          :map company-mode-map
          ("<tab>" . 'my-tab)
          ("TAB" . 'my-tab)))
+
+(when (display-graphic-p)
+  (require 'all-the-icons))
+;; or
+(use-package all-the-icons
+  :if (display-graphic-p))
+
+
+(defun cut-region (beg end)
+  "Copies the text to the kill buffer and deletes the selected region."
+  (interactive "r")
+  (copy-region-as-kill beg end)
+  (delete-region beg end))
+
+(map! "s-x" #'cut-region)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
